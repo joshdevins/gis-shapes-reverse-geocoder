@@ -1,8 +1,35 @@
-## Shapes Reverse Geocoder
+# Shapes Reverse Geocoder
 
-Finding open data sets containing detailed shapefiles representing low-level geographic regions (i.e. suburbs, neighbourhoods, etc.) is exceedingly difficult. There are several companies that house this kind of data including Navteq, UrbanMapping, Yahoo!, etc. however they are hidden behind pay APIs or expensive data downloads. Furthermore, they are often simple bounding boxes and not real shapes. SimpleGeo has [recently started building](http://blog.simplegeo.com/2011/08/05/its-a-beautiful-day-in-the-neighborhood/) international neighbourhood shape files, but this is a work in progress and only covers 12 major cities. The US, Canada, UK, etc. have good local coverage from places like Zillow and various government sources, however there is still significant leg work required to assemble the data in any sensible way.
+Finding open data sets containing detailed shapefiles representing low-level geographic regions (i.e. suburbs, neighbourhoods, etc.) is exceedingly difficult. There are several companies that house this kind of data including Navteq, UrbanMapping, Yahoo!, etc. however they are hidden behind pay APIs or expensive data downloads. Furthermore, they are often simple bounding boxes and not real shapes. SimpleGeo has [recently started building](http://blog.simplegeo.com/2011/08/05/its-a-beautiful-day-in-the-neighborhood/) international neighbourhood shape files, but this is a work in progress and only covers 12 major cities. The US, Canada, UK, etc. have good local coverage from places like [Zillow](http://www.zillow.com/howto/api/neighborhood-boundaries.htm) and various government sources, however there is still significant leg work required to assemble the data in any sensible way.
 
 This tiny project is an attempt to bring together various shape files and data sources to provide a decent reverse geocoder down to the neighbourhood level. All of the data is "open" in that it is free for use, however in some cases it requires attribution. Living up to the licenses for all of the data used is your responsibility!
+
+## Requirements
+
+To download and build the datasets:
+
+* bash
+* wget
+* unzip
+* tar
+* [GDAL](http://www.gdal.org) for [ogr2ogr](http://www.gdal.org/ogr2ogr.html)
+
+To build and run the service:
+
+* Java
+* [Scala](http://www.scala-lang.org)
+* [SBT](https://github.com/harrah/xsbt)
+
+Optional:
+
+* [QGIS](http://www.qgis.org) to view the shape files being used
+
+## Getting Started
+
+* download raw data: `sbin/downloadData.sh`
+* build data to be used by the indexer: `sbin/buildData.sh`
+* build services: sbt
+* run service: TBD
 
 ## Data Sources
 
@@ -13,10 +40,12 @@ This tiny project is an attempt to bring together various shape files and data s
   * cities
   * city administrative regions
   * neighbourhoods, suburbs
+* [SimpleGeo International Neighbourhoods 2011-08-04](http://s3.amazonaws.com/simplegeo-public/neighborhoods_dump_20110804.zip) ([details](http://blog.simplegeo.com/2011/08/05/its-a-beautiful-day-in-the-neighborhood/))
 * [Yahoo! GeoPlanet™ Data 7.6.0](http://ydn.zenfs.com/site/geo/geoplanet_data_7.6.0.zip) ([details](http://developer.yahoo.com/geo/geoplanet/data/))
 
 ## Data Licenses and Terms of Use
 
  * Natural Earth: Made with Natural Earth. Free vector and raster map data @ [naturalearthdata.com](http://www.naturalearthdata.com/)
  * Flickr Shapefiles Public Dataset 2.0: [Creative Commons Zero Waiver](http://creativecommons.org/publicdomain/zero/1.0/)
+ * SimpleGeo International Neighbourhoods: [Open Database License (ODbL)](http://opendatacommons.org/licenses/odbl/)
  * Yahoo! GeoPlanet™ Data 7.6.0: [Creative Commons Attribution](http://wiki.creativecommons.org/Creative_Commons_Attribution)
