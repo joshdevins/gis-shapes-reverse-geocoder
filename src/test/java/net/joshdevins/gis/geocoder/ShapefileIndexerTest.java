@@ -3,14 +3,11 @@ package net.joshdevins.gis.geocoder;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.geotools.data.DataStore;
-import org.geotools.data.DataStoreFinder;
+import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.junit.Assert;
@@ -32,9 +29,7 @@ public class ShapefileIndexerTest {
     public void testBasicIndexing() throws Exception {
 
         File shapefile = new File("data/build/flickr-shapes/neighbourhoods.shp");
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("url", shapefile.toURI().toURL());
-        DataStore store = DataStoreFinder.getDataStore(map);
+        ShapefileDataStore store = new ShapefileDataStore(shapefile.toURI().toURL());
 
         String name = store.getTypeNames()[0];
         SimpleFeatureSource source = store.getFeatureSource(name);
@@ -75,10 +70,7 @@ public class ShapefileIndexerTest {
     public void testPrintShapefile() throws Exception {
 
         File shapefile = new File("data/build/flickr-shapes/counties.shp");
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("url", shapefile.toURI().toURL());
-        DataStore store = DataStoreFinder.getDataStore(map);
+        ShapefileDataStore store = new ShapefileDataStore(shapefile.toURI().toURL());
 
         String name = store.getTypeNames()[0];
         System.out.println("TypeNames: " + Arrays.toString(store.getTypeNames()));
