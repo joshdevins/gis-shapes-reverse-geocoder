@@ -48,6 +48,7 @@ public class ShapefileIndexerTest {
         System.out.printf("Index built in: %.2f seconds\n", (new Date().getTime() - start) / (float) 1000);
 
         GeometryFactory geometryFactory = new GeometryFactory();
+        new File("target/test/output/flickr-shapes").mkdirs();
         File output = new File("target/test/output/flickr-shapes/neighbourhoods.txt");
         Formatter formatter = new Formatter(output);
 
@@ -81,7 +82,7 @@ public class ShapefileIndexerTest {
     @Test
     public void testPrintShapefile() throws Exception {
 
-        File shapefile = new File("data/build/flickr-shapes/continents.shp");
+        File shapefile = new File("data/build/flickr-shapes/counties.shp");
         ShapefileDataStore store = new ShapefileDataStore(shapefile.toURI().toURL());
 
         String name = store.getTypeNames()[0];
@@ -103,7 +104,8 @@ public class ShapefileIndexerTest {
         // now print out the feature contents (every non geometric attribute)
         SimpleFeatureIterator features = source.getFeatures().features();
 
-        while (features.hasNext()) {
+        int i = 0;
+        while (features.hasNext() && i < 10) {
             SimpleFeature feature = features.next();
 
             System.out.print(feature.getID() + "\t");
@@ -116,16 +118,21 @@ public class ShapefileIndexerTest {
             }
 
             System.out.println();
+            i++;
         }
 
         // and finally print out every geometry in wkt format
         features = source.getFeatures().features();
-        while (features.hasNext()) {
+        i = 0;
+        while (features.hasNext() && i < 10) {
 
             SimpleFeature feature = features.next();
 
             System.out.print(feature.getID() + "\t");
             System.out.println(feature.getDefaultGeometry());
+            i++;
         }
+
+        store.dispose();
     }
 }
