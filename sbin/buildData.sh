@@ -22,9 +22,10 @@ mkdir -p $BUILD_DIR
 echo "Converting Flickr shapes from GeoJSON into ESRI Shapefiles"
 mkdir -p $BUILD_DIR/flickr-shapes
 
+convertFlickrGeoJSON counties
+convertFlickrGeoJSON regions
 convertFlickrGeoJSON localities
 convertFlickrGeoJSON neighbourhoods
-convertFlickrGeoJSON regions
 
 echo "Copying Shapefiles from raw download directory"
 
