@@ -3,3 +3,4 @@
 .settings
 target
 project/boot
+.scala_dependencies
