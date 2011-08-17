@@ -1,6 +1,7 @@
 .classpath
 .project
 .settings
+.scala_dependencies
 target
 project/boot
-.scala_dependencies
+data
