@@ -3,12 +3,17 @@ package net.joshdevins.gis.geocoder;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Formatter;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.geotools.data.shapefile.ShapefileDataStore;
+import org.geotools.data.DataStore;
+import org.geotools.data.DataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
+import org.junit.Assert;
 import org.junit.Test;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
@@ -27,7 +32,9 @@ public class ShapefileIndexerTest {
     public void testBasicIndexing() throws Exception {
 
         File shapefile = new File("data/build/flickr-shapes/neighbourhoods.shp");
-        ShapefileDataStore store = new ShapefileDataStore(shapefile.toURI().toURL());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("url", shapefile.toURI().toURL());
+        DataStore store = DataStoreFinder.getDataStore(map);
 
         String name = store.getTypeNames()[0];
         SimpleFeatureSource source = store.getFeatureSource(name);
@@ -36,54 +43,42 @@ public class ShapefileIndexerTest {
         STRtree index = new STRtree();
 
         long start = new Date().getTime();
-        while (features.hasNext()) {
+        try {
+            while (features.hasNext()) {
 
-            SimpleFeature feature = features.next();
-            MultiPolygon geom = (MultiPolygon) feature.getDefaultGeometry();
-            Envelope envelope = geom.getEnvelopeInternal();
+                SimpleFeature feature = features.next();
+                MultiPolygon geom = (MultiPolygon) feature.getDefaultGeometry();
+                Envelope envelope = geom.getEnvelopeInternal();
 
-            index.insert(envelope, feature);
+                index.insert(envelope, feature);
+            }
+        } finally {
+            features.close();
+            store.dispose();
         }
 
         System.out.printf("Index built in: %.2f seconds\n", (new Date().getTime() - start) / (float) 1000);
 
         GeometryFactory geometryFactory = new GeometryFactory();
-        new File("target/test/output/flickr-shapes").mkdirs();
-        File output = new File("target/test/output/flickr-shapes/neighbourhoods.txt");
-        Formatter formatter = new Formatter(output);
 
-        start = new Date().getTime();
-        for (float lon = -180F; lon <= 180F; lon += 0.01F) {
-            for (float lat = -90F; lat <= 90F; lat += 0.01F) {
+        Assert.assertTrue(getWOEID(0, 0, index, geometryFactory).isEmpty());
 
-                Coordinate coordinate = new Coordinate(lon, lat);
-                Envelope searchEnv = new Envelope(coordinate);
+        Set<Long> woeids = getWOEID(52.5135, 13.3535, index, geometryFactory);
+        Assert.assertEquals(2, woeids.size());
+        Assert.assertTrue(woeids.contains(675695L));
+        Assert.assertTrue(woeids.contains(29352065L));
 
-                @SuppressWarnings("unchecked")
-                List<Object> results = index.query(searchEnv);
-
-                for (Object item : results) {
-
-                    SimpleFeature feature = (SimpleFeature) item;
-                    MultiPolygon geom = (MultiPolygon) feature.getDefaultGeometry();
-
-                    if (geom.contains(geometryFactory.createPoint(coordinate))) {
-                        formatter.format("%.2f,%.2f\t%s\n", lat, lon, feature.getAttribute("woe_id"));
-                    }
-                }
-            }
-        }
-
-        formatter.close();
-
-        System.out.printf("Full index query in: %d seconds\n", (new Date().getTime() - start) / 1000);
+        store.dispose();
     }
 
     @Test
     public void testPrintShapefile() throws Exception {
 
         File shapefile = new File("data/build/flickr-shapes/counties.shp");
-        ShapefileDataStore store = new ShapefileDataStore(shapefile.toURI().toURL());
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("url", shapefile.toURI().toURL());
+        DataStore store = DataStoreFinder.getDataStore(map);
 
         String name = store.getTypeNames()[0];
         System.out.println("TypeNames: " + Arrays.toString(store.getTypeNames()));
@@ -101,38 +96,66 @@ public class ShapefileIndexerTest {
 
         System.out.println();
 
-        // now print out the feature contents (every non geometric attribute)
         SimpleFeatureIterator features = source.getFeatures().features();
+        SimpleFeatureIterator features2 = source.getFeatures().features();
 
-        int i = 0;
-        while (features.hasNext() && i < 10) {
-            SimpleFeature feature = features.next();
+        try {
+            // now print out the feature contents (every non geometric attribute)
+            int i = 0;
+            while (features.hasNext() && i < 10) {
+                SimpleFeature feature = features.next();
 
-            System.out.print(feature.getID() + "\t");
+                System.out.print(feature.getID() + "\t");
 
-            for (Object attribute : feature.getAttributes()) {
+                for (Object attribute : feature.getAttributes()) {
 
-                if (!(attribute instanceof Geometry)) {
-                    System.out.print(attribute + "\t");
+                    if (!(attribute instanceof Geometry)) {
+                        System.out.print(attribute + "\t");
+                    }
                 }
+
+                System.out.println();
+                i++;
             }
 
-            System.out.println();
-            i++;
+            // and finally print out every geometry in wkt format
+            i = 0;
+            while (features.hasNext() && i < 10) {
+
+                SimpleFeature feature = features.next();
+
+                System.out.print(feature.getID() + "\t");
+                System.out.println(feature.getDefaultGeometry());
+                i++;
+            }
+
+        } finally {
+            features.close();
+            features2.close();
+            store.dispose();
+        }
+    }
+
+    private Set<Long> getWOEID(final double lat, final double lon, final STRtree index,
+            final GeometryFactory geometryFactory) {
+
+        Coordinate coordinate = new Coordinate(lon, lat);
+        Envelope searchEnv = new Envelope(coordinate);
+
+        @SuppressWarnings("unchecked")
+        List<Object> results = index.query(searchEnv);
+        Set<Long> rtn = new HashSet<Long>(results.size());
+
+        for (Object item : results) {
+
+            SimpleFeature feature = (SimpleFeature) item;
+            MultiPolygon geom = (MultiPolygon) feature.getDefaultGeometry();
+
+            if (geom.contains(geometryFactory.createPoint(coordinate))) {
+                rtn.add((Long) feature.getAttribute("woe_id"));
+            }
         }
 
-        // and finally print out every geometry in wkt format
-        features = source.getFeatures().features();
-        i = 0;
-        while (features.hasNext() && i < 10) {
-
-            SimpleFeature feature = features.next();
-
-            System.out.print(feature.getID() + "\t");
-            System.out.println(feature.getDefaultGeometry());
-            i++;
-        }
-
-        store.dispose();
+        return rtn;
     }
 }
