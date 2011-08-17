@@ -5,11 +5,11 @@ import akka.actor.Supervisor
 import akka.actor.Actor._
 import cc.spray._
 import utils.ActorHelpers._
+import net.joshdevins.gis.geocoder.ShapefileIndexer
 
 class Boot {
 
   val mainModule = new ReverseGeocoderService {
-    // bake your module cake here
   }
 
   // start the root service actor (and any service actors you want to specify supervision details for)
