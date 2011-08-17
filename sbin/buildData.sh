@@ -1,7 +1,7 @@
 #!/bin/bash
 
-RAW_DIR=target/data/raw
-BUILD_DIR=target/data/build
+RAW_DIR=data/raw
+BUILD_DIR=data/build
 
 function convertFlickrGeoJSON {
 

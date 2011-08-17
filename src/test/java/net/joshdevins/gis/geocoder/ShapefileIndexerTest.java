@@ -26,8 +26,7 @@ public class ShapefileIndexerTest {
     @Test
     public void testBasicIndexing() throws Exception {
 
-        File shapefile = new File(
-                "/Users/devins/Downloads/data/flickr_shapes_public_dataset_2.0/flickr_shapes_neighbourhoods.shp");
+        File shapefile = new File("data/build/flickr-shapes/neighbourhoods.shp");
         ShapefileDataStore store = new ShapefileDataStore(shapefile.toURI().toURL());
 
         String name = store.getTypeNames()[0];
@@ -49,8 +48,7 @@ public class ShapefileIndexerTest {
         System.out.printf("Index built in: %.2f seconds\n", (new Date().getTime() - start) / (float) 1000);
 
         GeometryFactory geometryFactory = new GeometryFactory();
-        File output = new File(
-                "/Users/devins/Downloads/data/flickr_shapes_public_dataset_2.0/flickr_shapes_neighbourhoods.txt");
+        File output = new File("target/test/output/flickr-shapes/neighbourhoods.txt");
         Formatter formatter = new Formatter(output);
 
         start = new Date().getTime();
@@ -83,8 +81,7 @@ public class ShapefileIndexerTest {
     @Test
     public void testPrintShapefile() throws Exception {
 
-        File shapefile = new File(
-                "/Users/devins/Downloads/data/flickr_shapes_public_dataset_2.0/flickr_shapes_continents.shp");
+        File shapefile = new File("data/build/flickr-shapes/continents.shp");
         ShapefileDataStore store = new ShapefileDataStore(shapefile.toURI().toURL());
 
         String name = store.getTypeNames()[0];

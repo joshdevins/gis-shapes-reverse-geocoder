@@ -30,8 +30,8 @@ if [ ! -d "sbin" ]; then
 fi
 
 # setup target dir
-mkdir -p target/data/raw
-cd target/data/raw
+mkdir -p data/raw
+cd data/raw
 
 # download files only if they are missing
 downloadIfFileMissing naturalearth-admin-0.zip http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/10m-admin-0-countries.zip
