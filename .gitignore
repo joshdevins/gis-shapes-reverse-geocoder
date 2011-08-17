@@ -4,4 +4,5 @@
 .scala_dependencies
 target
 project/boot
+default-bin
 data
