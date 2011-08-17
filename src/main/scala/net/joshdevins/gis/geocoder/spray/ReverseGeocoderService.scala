@@ -1,4 +1,4 @@
-package net.joshdevins.gis.geocoder
+package net.joshdevins.gis.geocoder.spray
 
 import cc.spray._
 
