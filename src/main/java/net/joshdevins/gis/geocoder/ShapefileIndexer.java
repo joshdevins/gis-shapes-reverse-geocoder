@@ -26,6 +26,8 @@ public final class ShapefileIndexer {
 
     public ShapefileIndexer(final String shapefile) throws IOException {
 
+        System.out.println("Indexing: " + shapefile);
+
         File file = new File(shapefile);
         ShapefileDataStore store = new ShapefileDataStore(file.toURI().toURL());
 

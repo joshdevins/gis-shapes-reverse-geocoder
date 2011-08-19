@@ -20,7 +20,8 @@ ivyLoggingLevel := UpdateLogging.Full
 libraryDependencies ++= Seq(
     "se.scalablesolutions.akka" % "akka" % "1.1.3",
     "cc.spray" %% "spray-http" % "0.7.0" % "compile" withSources(),
-    "cc.spray" %% "spray-server" % "0.7.0" % "compile" withSources()
+    "cc.spray" %% "spray-server" % "0.7.0" % "compile" withSources(),
+    "cc.spray.json" %% "spray-json" % "1.0.0" % "compile" withSources()
 )
 
 // logging
