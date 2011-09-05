@@ -4,7 +4,7 @@ organization := "net.joshdevins.gis"
 
 version := "0.0.1"
 
-scalaVersion := "2.9.0-1"
+scalaVersion := "2.9.1"
 
 ivyLoggingLevel := UpdateLogging.Full
 
@@ -27,6 +27,7 @@ libraryDependencies ++= Seq(
 // logging
 libraryDependencies ++= Seq(
   "se.scalablesolutions.akka" % "akka-slf4j" % "1.1.3",
+  "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.7",
   "ch.qos.logback" % "logback-classic" % "0.9.29" % "runtime"
 )
 
