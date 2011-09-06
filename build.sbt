@@ -35,7 +35,7 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= Seq(
     "com.novocode" % "junit-interface" % "0.7" % "test->default",
     "junit" % "junit" % "4.8.1" % "test",
-    "org.scala-tools.testing" %% "scalacheck" % "1.9" % "test",
+    "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "test",
     "org.eclipse.jetty" % "jetty-server" % "8.0.0.M3" % "jetty",
     "org.eclipse.jetty" % "jetty-webapp" % "8.0.0.M3" % "jetty"
 )
