@@ -22,9 +22,9 @@ import scala.collection._
  */
 class ShapefileIndex(name: String, shapefile: String) extends Logging {
 
-  val index = new STRtree
+  private val index = new STRtree
 
-  val geometryFactory = new GeometryFactory
+  private val geometryFactory = new GeometryFactory
 
   /**
    * Initialize and load the shapefile into the index.
