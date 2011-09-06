@@ -45,6 +45,9 @@ seq(sbtassembly.Plugin.assemblySettings: _*)    // assembly
 
 seq(webSettings :_*)    // web settings
 
+// scalac
+scalacOptions ++= Seq("-unchecked", "-deprecation")
+
 // resolvers
 resolvers ++= Seq(
     "Nexus Public Repo" at "http://nexus.places.devbln.europe.nokia.com/nexus/content/groups/public/",
