@@ -1,7 +1,7 @@
 package net.joshdevins.gis.geocoder
 
 import scala.collection._
-import com.weiglewilczek.slf4s.Logging
+import com.codahale.logula.Logging
 
 /**
  * Encapsulates the concept of a reverse geocoder containing multiple, hierarchical shapefile indices. Indices are search from lowest-level

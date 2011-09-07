@@ -7,7 +7,6 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import java.io.File
 import org.geotools.data.shapefile.ShapefileDataStore
-import com.weiglewilczek.slf4s.Logger
 import java.util.Arrays
 import org.geotools.data.simple.SimpleFeatureSource
 import org.opengis.feature.simple.SimpleFeatureType
@@ -18,8 +17,6 @@ import org.opengis.feature.simple.SimpleFeature
 
 @RunWith(classOf[JUnitRunner])
 class ShapefileIndexTestSuite extends FunSuite with ShouldMatchers {
-
-  val logger = Logger(this.getClass)
 
   test("basic indexing of the neighbourhoods shapefile") {
 
@@ -42,7 +39,7 @@ class ShapefileIndexTestSuite extends FunSuite with ShouldMatchers {
     val store = new ShapefileDataStore(shapefile.toURI.toURL)
 
     val name = store.getTypeNames.head
-    logger.info("TypeNames: " + store.getTypeNames.iterator.mkString)
+    System.out.println("TypeNames: " + store.getTypeNames.iterator.mkString)
 
     val source: SimpleFeatureSource = store.getFeatureSource(name)
 
@@ -51,11 +48,11 @@ class ShapefileIndexTestSuite extends FunSuite with ShouldMatchers {
     for (ad: AttributeDescriptor <- ft.getAttributeDescriptors) {
 
       if (!ad.getType.getBinding.isInstanceOf[Geometry]) {
-        logger.info(ad.getName + "\t")
+        System.out.println(ad.getName + "\t")
       }
     }
 
-    logger.info("")
+    System.out.println("")
 
     val features: SimpleFeatureIterator = source.getFeatures.features
     val features2: SimpleFeatureIterator = source.getFeatures.features
@@ -66,16 +63,16 @@ class ShapefileIndexTestSuite extends FunSuite with ShouldMatchers {
       while (features.hasNext && i < 10) {
         val feature: SimpleFeature = features.next
 
-        logger.info(feature.getID + "\t");
+        System.out.println(feature.getID + "\t");
 
         for (attribute: Object <- feature.getAttributes()) {
 
           if (!attribute.isInstanceOf[Geometry]) {
-            logger.info(attribute + "\t")
+            System.out.println(attribute + "\t")
           }
         }
 
-        logger.info("")
+        System.out.println("")
         i += 1
       }
 
@@ -85,8 +82,8 @@ class ShapefileIndexTestSuite extends FunSuite with ShouldMatchers {
 
         val feature: SimpleFeature = features.next
 
-        logger.info(feature.getID + "\t");
-        logger.info(feature.getDefaultGeometry.toString);
+        System.out.println(feature.getID + "\t");
+        System.out.println(feature.getDefaultGeometry.toString);
         i += 1
       }
 

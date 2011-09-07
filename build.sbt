@@ -26,16 +26,12 @@ libraryDependencies ++= Seq(
 
 // logging
 libraryDependencies ++= Seq(
-  "se.scalablesolutions.akka" % "akka-slf4j" % "1.1.3",
-  "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.7",
-  "ch.qos.logback" % "logback-classic" % "0.9.29" % "runtime"
+  "com.codahale" %% "logula" % "2.1.3",
 )
 
 // test
 libraryDependencies ++= Seq(
-    "com.novocode" % "junit-interface" % "0.7" % "test->default",
-    "junit" % "junit" % "4.8.1" % "test",
-    "org.scalatest" % "scalatest_2.9.0" % "1.6.1" % "test",
+    "org.scalatest" %% "scalatest" % "1.6.1" % "test",
     "org.eclipse.jetty" % "jetty-server" % "8.0.0.M3" % "jetty",
     "org.eclipse.jetty" % "jetty-webapp" % "8.0.0.M3" % "jetty"
 )
@@ -52,5 +48,6 @@ scalacOptions ++= Seq("-unchecked", "-deprecation")
 resolvers ++= Seq(
     "Nexus Public Repo" at "http://nexus.places.devbln.europe.nokia.com/nexus/content/groups/public/",
     "Nexus Public Snapshots Repo" at "http://nexus.places.devbln.europe.nokia.com/nexus/content/groups/public-snapshots/",
-    "Akka Repository" at "http://akka.io/repository"
+    "Akka Repository" at "http://akka.io/repository",
+    "Coda Hale Repository" at "http://repo.codahale.com"
 )

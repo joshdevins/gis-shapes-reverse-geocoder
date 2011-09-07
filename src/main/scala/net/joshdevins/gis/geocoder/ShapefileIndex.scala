@@ -1,6 +1,5 @@
 package net.joshdevins.gis.geocoder
 
-import com.weiglewilczek.slf4s.Logging
 import com.vividsolutions.jts.index.strtree.STRtree
 import com.vividsolutions.jts.geom.GeometryFactory
 import java.util.Date
@@ -14,6 +13,7 @@ import com.vividsolutions.jts.geom.Envelope
 import com.vividsolutions.jts.geom.Coordinate
 import scala.collection.JavaConversions._
 import scala.collection._
+import com.codahale.logula.Logging
 
 /**
  * A simple wrapper around an STRtree enabling loading of a shapefile and discovery of WOEIDs of shapes for given lat/lons.
@@ -30,7 +30,7 @@ class ShapefileIndex(val name: String, private val shapefile: String) extends Lo
    * Initialize and load the shapefile into the index.
    */
   {
-    logger.info("Indexing %s: %s".format(name, shapefile))
+    log.info("Indexing %s: %s", name, shapefile)
     val start = (new Date).getTime()
 
     val file = new File(shapefile)
@@ -56,7 +56,7 @@ class ShapefileIndex(val name: String, private val shapefile: String) extends Lo
     }
 
     val duration = (new Date).getTime() - start
-    logger.info("Index built in: %.2f seconds\n".format(duration / 1000F))
+    log.info("Index built in: %.2f seconds\n", duration / 1000F)
   }
 
   /**
