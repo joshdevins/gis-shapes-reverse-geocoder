@@ -41,6 +41,11 @@ seq(sbtassembly.Plugin.assemblySettings: _*)    // assembly
 
 seq(webSettings :_*)    // web settings
 
+{
+    val properties = new File("src/test/resources")
+    managedClasspath in jettyClasspaths += Attributed.blank(properties)
+}
+
 // scalac
 scalacOptions ++= Seq("-unchecked", "-deprecation")
 
