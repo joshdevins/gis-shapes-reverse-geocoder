@@ -18,7 +18,7 @@ import org.apache.log4j.spi.LoggingEvent
 class StandardPatternLayout extends EnhancedPatternLayout {
 
   @BeanProperty
-  val outputThrowable = true
+  var outputThrowable = true
 
   override def format(event: LoggingEvent) = {
 
