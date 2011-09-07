@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
 
 // logging
 libraryDependencies ++= Seq(
-  "com.codahale" %% "logula" % "2.1.3",
+  "com.codahale" %% "logula" % "2.1.3"
 )
 
 // test

@@ -6,7 +6,7 @@ import com.codahale.logula.Logging
 import com.codahale.logula.Log
 
 object Log4jEventHandler {
-  val format = "[%s] [%s] [%s]"
+  val format = "[%s] [%s] %s"
 }
 
 /**
@@ -36,7 +36,7 @@ class Log4jEventHandler extends Actor {
   }
 
   private def instanceName(instance: AnyRef): String = instance match {
-    // case a: ActorRef => a.getActorClassName
-    case _ => instance.getClass.toString
+    case a: ActorRef => a.getActorClassName
+    case _ => instance.getClass.getName
   }
 }
