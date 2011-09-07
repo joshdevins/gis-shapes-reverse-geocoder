@@ -33,7 +33,9 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "1.6.1" % "test",
     "org.eclipse.jetty" % "jetty-server" % "8.0.0.M3" % "jetty",
-    "org.eclipse.jetty" % "jetty-webapp" % "8.0.0.M3" % "jetty"
+    "org.eclipse.jetty" % "jetty-webapp" % "8.0.0.M3" % "jetty",
+    "org.slf4j" % "slf4j-api" % "1.6.2" % "jetty",
+    "org.slf4j" % "slf4j-log4j12" % "1.6.2" % "jetty"
 )
 
 // plugins
@@ -42,8 +44,8 @@ seq(sbtassembly.Plugin.assemblySettings: _*)    // assembly
 seq(webSettings :_*)    // web settings
 
 {
-    val properties = new File("src/test/resources")
-    managedClasspath in jettyClasspaths += Attributed.blank(properties)
+    val testResources = new File("src/jetty/resources")
+    managedClasspath in jettyClasspaths += Attributed.blank(testResources)
 }
 
 // scalac
