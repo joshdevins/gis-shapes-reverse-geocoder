@@ -20,7 +20,7 @@ import scala.collection._
  *
  * @author Josh Devins
  */
-class ShapefileIndex(name: String, shapefile: String) extends Logging {
+class ShapefileIndex(val name: String, private val shapefile: String) extends Logging {
 
   private val index = new STRtree
 
@@ -62,7 +62,7 @@ class ShapefileIndex(name: String, shapefile: String) extends Logging {
   /**
    * Gets the WOEIDs for the shapes that contain the lat/lon provided.
    */
-  def getWOEIDSetForCoordinates(lat: Double, lon: Double): immutable.Set[Long] = {
+  def getWOEIDSetForCoordinates(lat: Double, lon: Double): Option[immutable.Set[Long]] = {
 
     val coordinate = new Coordinate(lon, lat)
     val searchEnv = new Envelope(coordinate)
@@ -80,6 +80,6 @@ class ShapefileIndex(name: String, shapefile: String) extends Logging {
       }
     }
 
-    return rtn.toSet[Long]
+    if (rtn.isEmpty) None else { new Some(rtn.toSet[Long]) }
   }
 }

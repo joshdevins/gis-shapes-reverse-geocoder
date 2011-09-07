@@ -27,7 +27,10 @@ class ShapefileIndexTestSuite extends FunSuite with ShouldMatchers {
 
     indexer.getWOEIDSetForCoordinates(0, 0).isEmpty should equal(true)
 
-    val woeids = indexer.getWOEIDSetForCoordinates(52.5135, 13.3535);
+    val woeidsOption = indexer.getWOEIDSetForCoordinates(52.5135, 13.3535);
+    woeidsOption.isEmpty should equal(false)
+
+    val woeids = woeidsOption.get
     woeids.size should equal(2)
     woeids.contains(675695L) should equal(true)
     woeids.contains(29352065L) should equal(true)

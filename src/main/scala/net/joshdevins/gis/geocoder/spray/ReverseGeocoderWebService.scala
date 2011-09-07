@@ -7,11 +7,11 @@ import cc.spray.json._
 import cc.spray.json.DefaultJsonProtocol._
 import net.joshdevins.gis.geocoder.ShapefileIndex
 
-trait ReverseGeocoderService extends Directives {
+trait ReverseGeocoderWebService extends Directives {
 
   val neighbourhoods = new ShapefileIndex("neighbourhoods", "data/build/flickr-shapes/neighbourhoods.shp")
 
-  val reverseGeocoderService = {
+  val reverseGeocoderWebService = {
 
     path(DoubleNumber ~ "," ~ DoubleNumber) { (lat, lon) =>
       get {
