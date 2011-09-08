@@ -26,16 +26,15 @@ libraryDependencies ++= Seq(
 
 // logging
 libraryDependencies ++= Seq(
-  "com.codahale" %% "logula" % "2.1.3"
+    "com.codahale" %% "logula" % "2.1.3"
 )
 
 // test
 libraryDependencies ++= Seq(
+    "junit" % "junit" % "4.8.1" % "test",
     "org.scalatest" %% "scalatest" % "1.6.1" % "test",
     "org.eclipse.jetty" % "jetty-server" % "8.0.0.M3" % "jetty",
-    "org.eclipse.jetty" % "jetty-webapp" % "8.0.0.M3" % "jetty",
-    "org.slf4j" % "slf4j-api" % "1.6.2" % "jetty",
-    "org.slf4j" % "slf4j-log4j12" % "1.6.2" % "jetty"
+    "org.eclipse.jetty" % "jetty-webapp" % "8.0.0.M3" % "jetty"
 )
 
 // plugins

@@ -20,7 +20,7 @@ class ReverseGeocoder(private val dataDirecotory: String) extends Logging {
     new ShapefileIndex("admin-1", "data/build/naturalearth-admin-1/10m_admin_1_states_provinces_shp.shp"),
     new ShapefileIndex("admin-0", "data/build/naturalearth-admin-0/10m_admin_0_countries.shp"))
 
-  def mkString: String = indices.mkString
+  def mkString: String = indices.iterator.mkString
 
   /**
    * Gets the lowest-level WOEIDs for the shapes that contain the lat/lon provided. A subsequent lookup of the WOEID's will find the point
