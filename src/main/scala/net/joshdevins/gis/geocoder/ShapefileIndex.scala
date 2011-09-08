@@ -59,6 +59,8 @@ class ShapefileIndex(val name: String, private val shapefile: String) extends Lo
     log.info("Index built in: %.2f seconds\n", duration / 1000F)
   }
 
+  override def toString: String = name
+
   /**
    * Gets the WOEIDs for the shapes that contain the lat/lon provided.
    */
